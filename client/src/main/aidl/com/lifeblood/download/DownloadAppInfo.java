@@ -31,7 +31,7 @@ public class DownloadAppInfo implements Parcelable {
 		readFromParcel(source);
 	}
 
-	private void readFromParcel(Parcel source) {
+	public void readFromParcel(Parcel source) {
 		packageName = source.readString();
 		id = source.readLong();
 	}

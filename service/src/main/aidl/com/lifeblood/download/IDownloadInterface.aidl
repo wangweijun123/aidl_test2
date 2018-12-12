@@ -16,5 +16,12 @@ interface IDownloadInterface {
 
     List<DownloadAppInfo> getAllDownloadInfo();
 
+
+
     List<Book> getAllBooks();
+
+     //通过三种定位tag做对比试验，观察输出的结果
+        Book addBookIn(in Book book);
+        Book addBookOut(out Book book);
+        Book addBookInout(inout Book book);
 }

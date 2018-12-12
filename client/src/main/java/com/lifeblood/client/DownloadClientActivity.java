@@ -55,6 +55,8 @@ public class DownloadClientActivity extends Activity implements OnClickListener{
 
 	private DownloadListenerImpl downloadListener;
 
+
+
 	private class DownloadListenerImpl extends OnDownloadListener.Stub {
 		@Override
 		public void onDownloadInfo(DownloadAppInfo info) {
@@ -106,11 +108,49 @@ public class DownloadClientActivity extends Activity implements OnClickListener{
 					Log.i(TAG,""+allBooks.get(i) + ", "+allBooks.get(i).hashCode());
 				}
 			}else if (viewId == btn4.getId()){
+
+
 			} else if (viewId == btn22.getId()) {
 				iDownloadInterface.getDownloadInfoByIdAsync(1);
 				Log.i(TAG,"getAccountBalance2 finish");
 			}
 		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+
+	public void testIn(View view) {
+		Book info = new Book();
+		info.setName("xx");
+		info.setPrice(1);
+		try {
+			Book returnBook  = iDownloadInterface.addBookIn(info);
+			Log.i(TAG,"testIn :"+returnBook);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void testOut(View view) {
+		Book info = new Book();
+		info.setName("xx");
+		info.setPrice(1);
+		try {
+			Book returnBook  = iDownloadInterface.addBookOut(info);
+			Log.i(TAG,"testOut :"+returnBook);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void testInout(View view) {
+		Book info = new Book();
+		info.setName("xx");
+		info.setPrice(1);
+		try {
+			Book returnBook  = iDownloadInterface.addBookInout(info);
+			Log.i(TAG,"testInout :"+returnBook);
+		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}

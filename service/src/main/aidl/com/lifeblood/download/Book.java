@@ -9,13 +9,30 @@ public class Book implements Parcelable {
 
      int price;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
     public Book() {
     }
 
     protected Book(Parcel in) {
-        name = in.readString();
-        price = in.readInt();
+        readFromParcel(in);
     }
+
+
 
     public static final Creator<Book> CREATOR = new Creator<Book>() {
         @Override
@@ -34,9 +51,20 @@ public class Book implements Parcelable {
         return 0;
     }
 
+    public void readFromParcel(Parcel in) {
+        name = in.readString();
+        price = in.readInt();
+    }
+
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
         dest.writeInt(price);
+    }
+
+    @Override
+    public String toString() {
+        return "name:"+name+", price:"+price;
     }
 }

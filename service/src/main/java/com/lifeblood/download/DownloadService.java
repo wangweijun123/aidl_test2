@@ -44,7 +44,7 @@ public class DownloadService extends Service {
             info.id = id;
             info.packageName = "xxxx";
             try {
-                Thread.sleep(10_000);
+                Thread.sleep(1_000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -92,6 +92,27 @@ public class DownloadService extends Service {
                 e.printStackTrace();
             }
             return list;
+        }
+
+        @Override
+        public Book addBookIn(Book book) throws RemoteException {
+            Log.i(TAG, "addBookIn "+book);
+                    book.price = 1000;
+            return book;
+        }
+
+        @Override
+        public Book addBookOut(Book book) throws RemoteException {
+            Log.i(TAG, "addBookOut "+book);
+            book.price = 1000;
+            return book;
+        }
+
+        @Override
+        public Book addBookInout(Book book) throws RemoteException {
+            Log.i(TAG, "addBookInout "+book);
+            book.price = 1000;
+            return book;
         }
     }
 

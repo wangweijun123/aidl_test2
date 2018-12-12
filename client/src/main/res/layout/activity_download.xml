@@ -45,5 +45,23 @@
         android:id="@+id/Button05"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="showTest()"></Button>
+        android:text="异步调用"></Button>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="testIn"
+        android:onClick="testIn"></Button>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="testOut()"
+        android:onClick="testOut"></Button>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="testinout()"
+        android:onClick="testInout"></Button>
+
 </LinearLayout>
