@@ -11,7 +11,9 @@ import static org.junit.Assert.*;
  */
 public class ExampleUnitTest {
     @Test
-    public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
+    public void test() {
+        int oldThr = 10;
+        int newThr = oldThr << 1;
+        System.out.print(newThr);
     }
 }

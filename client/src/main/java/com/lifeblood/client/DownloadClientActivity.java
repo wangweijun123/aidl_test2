@@ -10,15 +10,19 @@ import android.os.RemoteException;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.webkit.DownloadListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.lifeblood.ITestService;
+import com.lifeblood.download.Book;
+import com.lifeblood.download.DownloadAppInfo;
+import com.lifeblood.download.IDownloadInterface;
+import com.lifeblood.download.OnDownloadListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AidlTestClient extends Activity implements OnClickListener{
+public class DownloadClientActivity extends Activity implements OnClickListener{
 	public static final String TAG = "wwjjjjj";
 
 	private Button btn = null;
@@ -28,26 +32,42 @@ public class AidlTestClient extends Activity implements OnClickListener{
 	private Button btn3 = null;
 	private Button btn4 = null;
 	private TextView text = null;
-	private ITestService tService = null;
+	private IDownloadInterface iDownloadInterface = null;
 
 	private ServiceConnection connection = new ServiceConnection(){
 
 		public void onServiceConnected(ComponentName name, IBinder service) {
-			//
-			tService = ITestService.Stub.asInterface(service);
-			Log.i(TAG,"Bind Success:" + tService);
+			iDownloadInterface = IDownloadInterface.Stub.asInterface(service);
+			Log.i(TAG,"Bind Success:" + iDownloadInterface + ", setDownloadListener "+downloadListener);
+			try {
+				iDownloadInterface.setDownloadListener(downloadListener);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
 		}
 
 		public void onServiceDisconnected(ComponentName name) {
-			tService = null;
+			iDownloadInterface = null;
 			Log.i(TAG,"onServiceDisconnected");
 		}
 	};
+
+
+	private DownloadListenerImpl downloadListener;
+
+	private class DownloadListenerImpl extends OnDownloadListener.Stub {
+		@Override
+		public void onDownloadInfo(DownloadAppInfo info) {
+			Log.i(TAG,"client onDownloadInfo " + info);
+		}
+	}
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.actvity_aidl_test);
+		downloadListener = new DownloadListenerImpl();
+
+        setContentView(R.layout.activity_download);
         
         btn = (Button)findViewById(R.id.Button01);
         btn1 = (Button)findViewById(R.id.Button02);
@@ -68,31 +88,29 @@ public class AidlTestClient extends Activity implements OnClickListener{
 		int viewId = v.getId();
 		try{
 			if (viewId == btn.getId()){
-				Intent service = new Intent("com.wangweijun.xxxx");
+				Intent service = new Intent("com.lifeblood.download.DownloadService");
 				service.setPackage("com.lifeblood");
 				bindService(service, connection, BIND_AUTO_CREATE);
 			}else if (viewId == btn1.getId()){
-				try{
-					int si = tService.getAccountBalance();
-					text.setText(String.valueOf(si));
-				}catch(RemoteException e){
-					
-				}
+
+				DownloadAppInfo downloadAppInfo = iDownloadInterface.getDownloadInfoById(1);
+				Log.i(TAG,"客户端收到downloadAppInfo:"+downloadAppInfo + ", "+downloadAppInfo.hashCode());
 			}else if (viewId == btn2.getId()){
-				List<String> names = new ArrayList<String>();
-				names.add("wangweijunxxxx");
-				tService.setOwnerNames(names);
+				final List<DownloadAppInfo> allDownloadInfo = iDownloadInterface.getAllDownloadInfo();
+				for (int i = 0; i < allDownloadInfo.size(); i++) {
+					Log.i(TAG,"客户端收到downloadAppInfo:"+allDownloadInfo.get(i) + ", "+allDownloadInfo.get(i).hashCode());
+				}
 			}else if (viewId == btn3.getId()){
-				String[] customerList = new String[1];
-				tService.getCustomerList("xx", customerList);
-				text.setText("customer : "+customerList[0]);
+				List<Book> allBooks = iDownloadInterface.getAllBooks();
+				for (int i = 0; i < allBooks.size(); i++) {
+					Log.i(TAG,""+allBooks.get(i) + ", "+allBooks.get(i).hashCode());
+				}
 			}else if (viewId == btn4.getId()){
-				tService.showTest();
 			} else if (viewId == btn22.getId()) {
-				tService.getAccountBalance2();
+				iDownloadInterface.getDownloadInfoByIdAsync(1);
 				Log.i(TAG,"getAccountBalance2 finish");
 			}
-		}catch(RemoteException e){
+		}catch(Exception e){
 			e.printStackTrace();
 		}
 	}
@@ -109,7 +127,5 @@ public class AidlTestClient extends Activity implements OnClickListener{
 		unbindService(connection);
 	}
 
-	public void startDownload(View view) {
-    	startActivity(new Intent(this, DownloadClientActivity.class));
-	}
+
 }

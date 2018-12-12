@@ -18,7 +18,12 @@
     		<action android:name="com.wangweijun.xxxx" />
     	</intent-filter>
 	</service>
-</application>
-    <uses-sdk android:minSdkVersion="3" />
 
-</manifest> 
+        <service android:name=".download.DownloadService">
+            <intent-filter>
+                <action android:name="com.lifeblood.download.DownloadService"></action>
+            </intent-filter>
+        </service>
+</application>
+
+</manifest>

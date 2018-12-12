@@ -10,17 +10,18 @@
         android:layout_height="wrap_content"
         android:text="@string/hello" />
 
+
     <Button
         android:id="@+id/Button01"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bind AIDL"></Button>
+        android:text="Bind download service"></Button>
 
     <Button
         android:id="@+id/Button02"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="getAccountBalance()"></Button>
+        android:text="同步调用返回getDownloadInfoById ()"></Button>
 
     <Button
         android:id="@+id/Button022"
@@ -32,13 +33,13 @@
         android:id="@+id/Button03"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="setOwnerNames()"></Button>
+        android:text="获取下载列表"></Button>
 
     <Button
         android:id="@+id/Button04"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="getCustomerList()"></Button>
+        android:text="获取所有书籍"></Button>
 
     <Button
         android:id="@+id/Button05"
