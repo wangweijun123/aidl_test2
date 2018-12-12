@@ -131,4 +131,9 @@ public class DownloadService extends Service {
         Log.i(TAG,"DownloadService onBind: downloadInterface:"+downloadInterface);
         return downloadInterface;
     }
+
+    @Override
+    public boolean onUnbind(Intent intent) {
+        return super.onUnbind(intent);
+    }
 }

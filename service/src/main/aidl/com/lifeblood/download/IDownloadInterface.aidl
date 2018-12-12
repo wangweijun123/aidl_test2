@@ -17,8 +17,6 @@ interface IDownloadInterface {
 
     List<DownloadAppInfo> getAllDownloadInfo();
 
-
-
     List<Book> getAllBooks();
 
      //通过三种定位tag做对比试验，观察输出的结果
