@@ -9,7 +9,7 @@ import com.lifeblood.download.Book;
 interface IDownloadInterface {
      // 这里OnDownloadListener没有tag修饰，因为他是interface，不是 parcelable数据
      // 只有基本数据与要使用的module才有tag修饰
-    void setDownloadListener(OnDownloadListener onDownloadListener);
+    void setDownloadListener(String pkgName, OnDownloadListener onDownloadListener);
 
     DownloadAppInfo getDownloadInfoById(long id);
 

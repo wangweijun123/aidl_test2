@@ -8,7 +8,7 @@ import com.lifeblood.download.Book;
 
 interface IDownloadInterface {
 
-    void setDownloadListener(OnDownloadListener onDownloadListener);
+    void setDownloadListener(String pkgName, OnDownloadListener onDownloadListener);
 
     DownloadAppInfo getDownloadInfoById(long id);
 

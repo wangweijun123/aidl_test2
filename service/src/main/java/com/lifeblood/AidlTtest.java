@@ -1,7 +1,6 @@
 package com.lifeblood;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 
 public class AidlTtest extends Activity {
@@ -12,7 +11,7 @@ public class AidlTtest extends Activity {
         setContentView(R.layout.main);
         
         
-        Intent service = new Intent(this, TestService.class);
-        startService(service);
+        /*Intent service = new Intent(this, TestService.class);
+        startService(service);*/
     }
 }

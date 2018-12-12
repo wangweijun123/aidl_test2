@@ -10,7 +10,6 @@ import android.os.RemoteException;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.webkit.DownloadListener;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -19,7 +18,6 @@ import com.lifeblood.download.DownloadAppInfo;
 import com.lifeblood.download.IDownloadInterface;
 import com.lifeblood.download.OnDownloadListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DownloadClientActivity extends Activity implements OnClickListener{
@@ -40,7 +38,14 @@ public class DownloadClientActivity extends Activity implements OnClickListener{
 			iDownloadInterface = IDownloadInterface.Stub.asInterface(service);
 			Log.i(TAG,"Bind Success:" + iDownloadInterface + ", setDownloadListener "+downloadListener);
 			try {
-				iDownloadInterface.setDownloadListener(downloadListener);
+				iDownloadInterface.setDownloadListener(getApplicationContext().getPackageName(),
+						downloadListener);
+				service.linkToDeath(new IBinder.DeathRecipient() {
+					@Override
+					public void binderDied() {
+						Log.i(TAG," 服务器死了。。。");
+					}
+				}, 0);
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
@@ -163,7 +168,6 @@ public class DownloadClientActivity extends Activity implements OnClickListener{
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		
 		unbindService(connection);
 	}
 
