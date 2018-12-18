@@ -95,9 +95,9 @@ public class DownloadClientActivity extends Activity implements OnClickListener{
 		int viewId = v.getId();
 		try{
 			if (viewId == btn.getId()){
-				Intent service = new Intent("com.lifeblood.download.DownloadService");
-				service.setPackage("com.lifeblood");
-				bindService(service, connection, BIND_AUTO_CREATE);
+				Intent in = new Intent("com.lifeblood.download.DownloadService");
+				in.setPackage("com.lifeblood");// service 所在的包名
+				bindService(in, connection, BIND_AUTO_CREATE);
 			}else if (viewId == btn1.getId()){
 
 				DownloadAppInfo downloadAppInfo = iDownloadInterface.getDownloadInfoById(1);
