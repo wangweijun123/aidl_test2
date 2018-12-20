@@ -74,10 +74,6 @@ public class DownloadService extends Service {
                         iterator.remove();
                     }
                 }
-
-
-
-
         }
 
         @Override
