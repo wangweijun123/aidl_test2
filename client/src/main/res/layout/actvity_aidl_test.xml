@@ -51,4 +51,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="showTest()"></Button>
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="调研token与dialog token"
+        android:onClick="testToken"></Button>
 </LinearLayout>

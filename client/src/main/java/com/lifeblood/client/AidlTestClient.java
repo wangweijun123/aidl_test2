@@ -1,6 +1,7 @@
 package com.lifeblood.client;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -10,11 +11,14 @@ import android.os.RemoteException;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.lifeblood.ITestService;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -111,5 +115,53 @@ public class AidlTestClient extends Activity implements OnClickListener{
 
 	public void startDownload(View view) {
     	startActivity(new Intent(this, DownloadClientActivity.class));
+	}
+
+	public void testToken(View view) {
+    	// 获取当前activity token(Ibinder对象传给dialog弹出，相当于在应用内部弹出的dialog一样)
+		IBinder token = getActivityToken();
+		getToken(getWindow());
+		// 这里为什么传context也可以弹出窗口,因为activity的token传给了dialog,不然的话只能用this(activity)
+		Dialog dialog = new Dialog(getApplicationContext());
+		dialog.setTitle("xxxxx");
+		// 这里很重要
+		Window window = dialog.getWindow();
+		WindowManager.LayoutParams l = window.getAttributes();
+		l.token = token;
+		window.setAttributes(l);
+		dialog.show();
+
+		getTokenFromDialog(dialog.getWindow());
+	}
+
+	private IBinder getActivityToken() {
+		try {
+			Field mTokenField = this.getClass().getSuperclass().getDeclaredField("mToken");
+			mTokenField.setAccessible(true);
+			IBinder mToken = (IBinder) mTokenField.get(this);
+			Log.i(TAG, "getActivityToken mToken:"+mToken);
+			return mToken;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	private void getToken(Window window) {
+
+		try {
+			Field mTokenField = window.getClass().getSuperclass().getDeclaredField("mAppToken");
+			mTokenField.setAccessible(true);
+			IBinder mToken = (IBinder) mTokenField.get(window);
+			Log.i(TAG, "getToken  mToken:"+mToken);
+		} catch (Exception e) {
+			e.printStackTrace();
+			Log.i(TAG, "Exception:");
+		}
+	}
+
+	private void getTokenFromDialog(Window window) {
+		WindowManager.LayoutParams l = window.getAttributes();;
+		Log.i(TAG, "获取dialog mToken:"+l.token);
 	}
 }
